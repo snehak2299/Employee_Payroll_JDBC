@@ -28,8 +28,8 @@ public class EmployeePayrollTest {
 		EmployeePayrollService employeePayrollService = new EmployeePayrollService();
 		List<EmployeePayrollData> employeePayrollData=employeePayrollService.readEmployeePayrollData(IOService.DB_IO);
 		employeePayrollService.updateEmployeeSalary("terisa",30000);
-//		boolean result = employeePayrollService.checkEmployeeSyncWithDb("terisa");
-//		Assert.assertTrue(result);
+		boolean result = employeePayrollService.checkEmployeeSyncWithDb("terisa");
+		Assert.assertTrue(result);
 	}
 
 }
