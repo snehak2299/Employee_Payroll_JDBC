@@ -1,6 +1,7 @@
 package com.bridglab.jdbcemployee;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -114,6 +115,27 @@ public class EmployeePayrollDb {
         {
             e.printStackTrace();
         }
+	}
+
+	public  List<EmployeePayrollData> getEmployeeRange(LocalDate startDate, LocalDate endDate) {
+		String sql = String.format("SELECT * FROM employee_payroll WHERE start between '%s' and '%s';",
+		Date.valueOf(startDate),Date.valueOf(endDate));
+		List <EmployeePayrollData>employeePayrollList= null;
+		return this.getEmployeeDataUsingDb(sql);
+	
+	//return null;
+	}
+	private  List<EmployeePayrollData> getEmployeeDataUsingDb(String sql){
+		List <EmployeePayrollData>employeePayrollList= null;
+		if(this.getEmployeePayrolldataStatement==null)
+			this.preparedStatementForEmployeeData();
+		try {
+			ResultSet resultSet= getEmployeePayrolldataStatement.executeQuery();
+			employeePayrollList=this.getEmployeePayrolldata(resultSet);
+		}catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return employeePayrollList;
 	}
 
 }

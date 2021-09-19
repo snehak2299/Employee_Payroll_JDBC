@@ -1,6 +1,12 @@
 package com.bridglab.jdbcemployee;
 
 
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 public class EmployeePayrollService {
@@ -15,6 +21,7 @@ public class EmployeePayrollService {
             this.employeePayrollList=new EmployeePayrollDb().readData();
         return this.employeePayrollList;
 	}
+	
 	public void updateEmployeeSalary(String name, int salary) {
 		int result = new EmployeePayrollDb().updateEmployeeData(name,salary);
 		if(result==0) return ;
@@ -25,7 +32,15 @@ public class EmployeePayrollService {
 		return this.employeePayrollList.stream().filter(employeePayrollDataItem ->employeePayrollDataItem.name.equals(name)).findFirst().orElse(null);
 	}
 	public boolean checkEmployeeSyncWithDb(String name) {
-		List <EmployeePayrollData>employeePayrollList= new EmployeePayrollDb().getEmployeePayrolldata(name);
-		return employeePayrollList.get(0).equals(getEmployeePayrollData(name));
+		List <EmployeePayrollData>employeePayrollDataList= new EmployeePayrollDb().getEmployeePayrolldata(name);
+		return employeePayrollDataList.get(0).equals(getEmployeePayrollData(name));
+	}
+
+	public List<EmployeePayrollData> readEmployeePayrollForDateRange(IOService dbIo, LocalDate startDate,
+			LocalDate endDate) {
+		if(dbIo.equals(IOService.DB_IO))
+				return EmployeePayrollDb.getEmployeeRange(startDate,endDate);
+				
+		return null;
 	}
 }
