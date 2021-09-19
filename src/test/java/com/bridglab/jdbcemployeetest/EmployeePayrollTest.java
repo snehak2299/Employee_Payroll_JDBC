@@ -1,10 +1,15 @@
 package com.bridglab.jdbcemployeetest;
 
 import java.sql.Connection;
+import java.util.List;
 
+import org.junit.Assert;
 import org.junit.Test;
 
+import com.bridglab.jdbcemployee.EmployeePayrollData;
 import com.bridglab.jdbcemployee.EmployeePayrollDb;
+import com.bridglab.jdbcemployee.EmployeePayrollService;
+import com.bridglab.jdbcemployee.EmployeePayrollService.IOService;
 
 public class EmployeePayrollTest {
 	@Test
@@ -12,5 +17,11 @@ public class EmployeePayrollTest {
         Connection dbConnection=new EmployeePayrollDb().connectDb();
         System.out.println(dbConnection);
     }
+	@Test
+	public void givenEmployeePayDb_retriveData_whenMatchCount() {
+		EmployeePayrollService employeePayrollService = new EmployeePayrollService();
+		List<EmployeePayrollData> employeePayrollData=employeePayrollService.readEmployeePayrollData(IOService.DB_IO);
+        Assert.assertEquals(4,employeePayrollData.size());
+	}
 
 }
