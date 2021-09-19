@@ -9,7 +9,9 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class EmployeePayrollDb {
 	String url = "jdbc:mysql://localhost:3306/payroll_service?useSSL=false";
@@ -136,6 +138,25 @@ public class EmployeePayrollDb {
 			e.printStackTrace();
 		}
 		return employeePayrollList;
+	}
+
+	public  Map<String, Integer> getAvgSalaryByGender() {
+		String sql = "select gender,AVG(salary) as avg_salary from employee_payroll group by gender";
+		Map <String,Integer>genderToAvgSalaryMap= new HashMap<>();
+		try(Connection connection=this.connectDb()) {
+            Statement statement=connection.createStatement();
+            ResultSet resultSet=statement.executeQuery(sql);
+            while(resultSet.next()) {
+            	String gender = resultSet.getString("gender");
+            	int salary = resultSet.getInt("avg_salary");
+            }
+            
+       }
+        catch (SQLException e)
+       {
+           e.printStackTrace();
+        }
+		return genderToAvgSalaryMap;
 	}
 
 }

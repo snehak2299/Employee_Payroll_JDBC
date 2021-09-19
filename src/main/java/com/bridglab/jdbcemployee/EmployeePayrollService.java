@@ -8,6 +8,7 @@ import java.sql.Statement;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class EmployeePayrollService {
 	public enum IOService { CONSOLE_IO,FILE_IO,DB_IO,REST_IO}
@@ -41,6 +42,12 @@ public class EmployeePayrollService {
 		if(dbIo.equals(IOService.DB_IO))
 				return EmployeePayrollDb.getEmployeeRange(startDate,endDate);
 				
+		return null;
+	}
+	public Map<String, Integer> readAvgSalaryByGender(IOService dbIo) {
+		if(dbIo.equals(IOService.DB_IO))
+			return EmployeePayrollDb.getAvgSalaryByGender();
+
 		return null;
 	}
 }
