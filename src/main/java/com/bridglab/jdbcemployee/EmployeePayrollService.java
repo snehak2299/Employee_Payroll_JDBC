@@ -15,4 +15,17 @@ public class EmployeePayrollService {
             this.employeePayrollList=new EmployeePayrollDb().readData();
         return this.employeePayrollList;
 	}
+	public void updateEmployeeSalary(String name, int salary) {
+		int result = new EmployeePayrollDb().updateEmployeeData(name,salary);
+		if(result==0) return ;
+		EmployeePayrollData employeePayrollData = this.getEmployeePayrollData(name);
+		if(employeePayrollData!=null)employeePayrollData.salary=salary;
+	}
+	private EmployeePayrollData getEmployeePayrollData(String name) {
+		return this.employeePayrollList.stream().filter(employeePayrollDataItem ->employeePayrollDataItem.name.equals(name)).findFirst().orElse(null);
+	}
+	public boolean checkEmployeeSyncWithDb(String name) {
+		List <EmployeePayrollData>employeePayrollList= new EmployeePayrollDb().getEmployeePayrolldata(name);
+		return employeePayrollList.get(0).equals(getEmployeePayrollData(name));
+	}
 }
