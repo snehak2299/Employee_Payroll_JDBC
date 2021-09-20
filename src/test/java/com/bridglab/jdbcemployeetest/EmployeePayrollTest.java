@@ -5,14 +5,18 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
 
 import org.junit.Assert;
 import org.junit.Test;
 
 import com.bridglab.jdbcemployee.EmployeePayrollData;
 import com.bridglab.jdbcemployee.EmployeePayrollDb;
+import com.bridglab.jdbcemployee.EmployeePayrollDbService;
 import com.bridglab.jdbcemployee.EmployeePayrollService;
 import com.bridglab.jdbcemployee.EmployeePayrollService.IOService;
+
+import JdbcDemo.EmployeePayrollDBService;
 
 public class EmployeePayrollTest {
 	@Test
@@ -34,14 +38,28 @@ public class EmployeePayrollTest {
 		boolean result = employeePayrollService.checkEmployeeSyncWithDb("terisa");
 		Assert.assertTrue(result);
 	}
-
 	 @Test
-	 public void check() {
+	 public void ifstartdateGiven_findall_tillNowDate() {
 		EmployeePayrollService employeePayrollService = new EmployeePayrollService();
 		employeePayrollService.readEmployeePayrollData(IOService.DB_IO);
 		LocalDate startDate = LocalDate.of(2018, 1, 1);
 		LocalDate endDate = LocalDate.now();
-		List<EmployeePayrollData> employeePayrollData=employeePayrollService.readEmployeePayrollForDateRange(IOService.DB_IO,startDate,endDate);
-		Assert.assertEquals(4,employeePayrollData.size() );
+	//	EmployeePayrollData employeePayrollData=employeePayrollService.readEmployeePayrollForDateRange(IOService.DB_IO,startDate,endDate);
+//		Assert.assertEquals(4,employeePayrollData.size() );
 	 }
+	 
+	 @Test
+	 public void givenPayRollData_avgSalaryRecivedByGender() {
+		EmployeePayrollService employeePayrollService = new EmployeePayrollService();
+		employeePayrollService.readEmployeePayrollData(IOService.DB_IO);
+		Map<String,	Integer>avgSalaryByGender=employeePayrollService.readAvgSalaryByGender(IOService.DB_IO);
+		Assert.assertTrue(avgSalaryByGender.get("M").equals(100000)&&
+				avgSalaryByGender.get("F").equals(243333.333));
+		 
+	 }
+	 @Test
+	    public void abilityToAddNewEmployee() {
+	        EmployeePayrollDbService employeePayrollDBService=new EmployeePayrollDbService();
+	        employeePayrollDBService.addNewEmployee(1,"Poonam","F",500000,"2021-09-09");
+	    }
 }

@@ -20,6 +20,15 @@ public class EmployeePayrollDb {
 	Connection conn;
 	private PreparedStatement getEmployeePayrolldataStatement;
 	static Statement st = null;
+	private static EmployeePayrollDb employeePayrollDb;
+	public EmployeePayrollDb() {
+		
+	}
+	public static EmployeePayrollDb getInstance() {
+		if (employeePayrollDb==null)
+			employeePayrollDb = new EmployeePayrollDb();
+		return employeePayrollDb;	
+	}
 	public List<EmployeePayrollData> readData() {
         String sql="SELECT * FROM employee_payroll;";
         List<EmployeePayrollData> employeePayrollList=new ArrayList<>();
@@ -119,7 +128,7 @@ public class EmployeePayrollDb {
         }
 	}
 
-	public  List<EmployeePayrollData> getEmployeeRange(LocalDate startDate, LocalDate endDate) {
+	public  List<EmployeePayrollData> getEmployeeRanged(LocalDate startDate, LocalDate endDate) {
 		String sql = String.format("SELECT * FROM employee_payroll WHERE start between '%s' and '%s';",
 		Date.valueOf(startDate),Date.valueOf(endDate));
 		List <EmployeePayrollData>employeePayrollList= null;
@@ -127,7 +136,7 @@ public class EmployeePayrollDb {
 	
 	//return null;
 	}
-	private  List<EmployeePayrollData> getEmployeeDataUsingDb(String sql){
+	private List<EmployeePayrollData>  getEmployeeDataUsingDb(String sql){
 		List <EmployeePayrollData>employeePayrollList= null;
 		if(this.getEmployeePayrolldataStatement==null)
 			this.preparedStatementForEmployeeData();
@@ -140,7 +149,7 @@ public class EmployeePayrollDb {
 		return employeePayrollList;
 	}
 
-	public  Map<String, Integer> getAvgSalaryByGender() {
+	public Map<String, Integer> getAvgSalaryByGender() {
 		String sql = "select gender,AVG(salary) as avg_salary from employee_payroll group by gender";
 		Map <String,Integer>genderToAvgSalaryMap= new HashMap<>();
 		try(Connection connection=this.connectDb()) {
@@ -158,5 +167,6 @@ public class EmployeePayrollDb {
         }
 		return genderToAvgSalaryMap;
 	}
+
 
 }

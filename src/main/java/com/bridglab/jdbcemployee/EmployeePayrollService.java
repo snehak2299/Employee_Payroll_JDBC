@@ -19,12 +19,12 @@ public class EmployeePayrollService {
 	}
 	public List<EmployeePayrollData> readEmployeePayrollData(IOService dbIo) {
 		if(IOService.DB_IO != null)
-            this.employeePayrollList=new EmployeePayrollDb().readData();
+            this.employeePayrollList=EmployeePayrollDb.getInstance().readData();
         return this.employeePayrollList;
 	}
 	
 	public void updateEmployeeSalary(String name, int salary) {
-		int result = new EmployeePayrollDb().updateEmployeeData(name,salary);
+		int result = EmployeePayrollDb.getInstance().updateEmployeeData(name,salary);
 		if(result==0) return ;
 		EmployeePayrollData employeePayrollData = this.getEmployeePayrollData(name);
 		if(employeePayrollData!=null)employeePayrollData.salary=salary;
@@ -33,20 +33,20 @@ public class EmployeePayrollService {
 		return this.employeePayrollList.stream().filter(employeePayrollDataItem ->employeePayrollDataItem.name.equals(name)).findFirst().orElse(null);
 	}
 	public boolean checkEmployeeSyncWithDb(String name) {
-		List <EmployeePayrollData>employeePayrollDataList= new EmployeePayrollDb().getEmployeePayrolldata(name);
+		List <EmployeePayrollData>employeePayrollDataList= EmployeePayrollDb.getInstance().getEmployeePayrolldata(name);
 		return employeePayrollDataList.get(0).equals(getEmployeePayrollData(name));
 	}
 
-	public List<EmployeePayrollData> readEmployeePayrollForDateRange(IOService dbIo, LocalDate startDate,
+	public EmployeePayrollDb readEmployeePayrollForDateRange(IOService dbIo, LocalDate startDate,
 			LocalDate endDate) {
 		if(dbIo.equals(IOService.DB_IO))
-				return EmployeePayrollDb.getEmployeeRange(startDate,endDate);
+			return  EmployeePayrollDb.getInstance().getEmployeeRanged(startDate,endDate);
 				
 		return null;
 	}
 	public Map<String, Integer> readAvgSalaryByGender(IOService dbIo) {
 		if(dbIo.equals(IOService.DB_IO))
-			return EmployeePayrollDb.getAvgSalaryByGender();
+			return EmployeePayrollDb.getInstance().getAvgSalaryByGender();
 
 		return null;
 	}
