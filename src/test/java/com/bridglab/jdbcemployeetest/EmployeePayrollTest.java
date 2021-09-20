@@ -16,7 +16,7 @@ import com.bridglab.jdbcemployee.EmployeePayrollDbService;
 import com.bridglab.jdbcemployee.EmployeePayrollService;
 import com.bridglab.jdbcemployee.EmployeePayrollService.IOService;
 
-import JdbcDemo.EmployeePayrollDBService;
+
 
 public class EmployeePayrollTest {
 	@Test
@@ -28,7 +28,7 @@ public class EmployeePayrollTest {
 	public void givenEmployeePayDb_retriveData_whenMatchCount() {
 		EmployeePayrollService employeePayrollService = new EmployeePayrollService();
 		List<EmployeePayrollData> employeePayrollData=employeePayrollService.readEmployeePayrollData(IOService.DB_IO);
-        Assert.assertEquals(4,employeePayrollData.size());
+        Assert.assertEquals(6,employeePayrollData.size());
 	}
 	@Test
 	public void givenNewSalaryEmployee_whenUpdated_SholudMatch() {
@@ -38,15 +38,15 @@ public class EmployeePayrollTest {
 		boolean result = employeePayrollService.checkEmployeeSyncWithDb("terisa");
 		Assert.assertTrue(result);
 	}
-	 @Test
-	 public void ifstartdateGiven_findall_tillNowDate() {
-		EmployeePayrollService employeePayrollService = new EmployeePayrollService();
-		employeePayrollService.readEmployeePayrollData(IOService.DB_IO);
-		LocalDate startDate = LocalDate.of(2018, 1, 1);
-		LocalDate endDate = LocalDate.now();
-		EmployeePayrollData employeePayrollData=employeePayrollService.readEmployeePayrollForDateRange(IOService.DB_IO,startDate,endDate);
-		Assert.assertEquals(4,employeePayrollData.size() );
-	 }
+//	 @Test
+//	 public void ifstartdateGiven_findall_tillNowDate() {
+//		EmployeePayrollService employeePayrollService = new EmployeePayrollService();
+//		employeePayrollService.readEmployeePayrollData(IOService.DB_IO);
+//		LocalDate startDate = LocalDate.of(2018, 1, 1);
+//		LocalDate endDate = LocalDate.now();
+//		EmployeePayrollData employeePayrollData=employeePayrollService.readEmployeePayrollForDateRange(IOService.DB_IO,startDate,endDate);
+//		Assert.assertEquals(4,employeePayrollData.size() );
+//	 }
 	 
 	 @Test
 	 public void givenPayRollData_avgSalaryRecivedByGender() {
@@ -62,9 +62,14 @@ public class EmployeePayrollTest {
 	        EmployeePayrollDbService employeePayrollDBService=new EmployeePayrollDbService();
 	        employeePayrollDBService.addNewEmployee(1,"Poonam","F",500000,"2021-09-09");
 	   }
+//	 @Test
+//	    public void abilityToAddEmployeeToPayroll_whenNewEmployeeAdded() throws SQLException {
+//	        EmployeePayrollDbService employeePayrollDbService=new EmployeePayrollDbService();
+//	        employeePayrollDbService.addEmployeeToPayroll("dipika","F",652000,"2021-08-02");
+//	    }
 	 @Test
-	    public void abilityToAddEmployeeToPayroll_whenNewEmployeeAdded() throws SQLException {
-	        EmployeePayrollDbService employeePayrollDBService=new EmployeePayrollDbService();
-	        employeePayrollDBService.addEmployeePayroll("dipika","F",652000,"2021-08-02");
+	    public void abilityToAddEmployeeToPayrollUsingTransaction() throws SQLException {
+	        EmployeePayrollDbService employeePayrollDbService=new EmployeePayrollDbService();
+	        employeePayrollDbService.addEmployeeToPayroll("kshipra",'F',2000000,"2020-07-01");
 	    }
 }

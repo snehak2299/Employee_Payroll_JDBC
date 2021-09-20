@@ -42,7 +42,7 @@ public class EmployeePayrollDbService {
     private Connection getConnection() {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
-            //System.out.println(Class.forName("com.mysql.cj.jdbc.Driver"));
+            
 
         }catch (ClassNotFoundException e){
             e.printStackTrace();
@@ -60,12 +60,12 @@ public class EmployeePayrollDbService {
         return con;
     }
 
-    public int updateEmployeeData(String name, double salary) {
+    public int updateEmployeeData(String name, int salary) {
      return this.updateEmployeeDataUsingStatement(name,salary);
     }
 
-    public int updateEmployeeDataUsingStatement(String name, double salary) {
-        String sql=String.format("update employee_payroll set salary=%2f where name='%s';",salary,name);
+    public int updateEmployeeDataUsingStatement(String name, int salary) {
+        String sql=String.format("update employee_payroll set salary=%d where name='%s';",salary,name);
         try(Connection connection=this.getConnection()) {
             Statement statement=connection.createStatement();
             return statement.executeUpdate(sql);
@@ -127,8 +127,8 @@ public class EmployeePayrollDbService {
 
     }
     public int addNewEmployee(int id,String name, String gender, int salary, String date) {
-		String sql = String.format("insert into employee_payroll(id,name,gender,salary,start) values (%2f,'%s','%s',%2f,CAST('%s' AS DATE));",id, name, gender, salary, date);
-        try (Connection connection = this.connectDb()) {
+		String sql = String.format("insert into employee_payroll(id,name,gender,salary,start) values (%d,'%s','%s',%d,CAST('%s' AS DATE));",id, name, gender, salary, date);
+        try (Connection connection = this.getConnection()) {
             Statement statement = connection.createStatement();
             int result = statement.executeUpdate(sql);
 
@@ -146,7 +146,7 @@ public class EmployeePayrollDbService {
 	private void printEntries() {
 		String sql="SELECT * FROM employee_payroll;";
         try {
-            Connection connection=this.connectDb();
+            Connection connection=this.getConnection();
             Statement statement=connection.createStatement();
             ResultSet resultSet=statement.executeQuery(sql);
             while (resultSet.next()){

@@ -40,7 +40,7 @@ public class EmployeePayrollService {
 	public EmployeePayrollDb readEmployeePayrollForDateRange(IOService dbIo, LocalDate startDate,
 			LocalDate endDate) {
 		if(dbIo.equals(IOService.DB_IO))
-			return  EmployeePayrollDb.getInstance().getEmployeeRanged(startDate,endDate);
+			return  employeePayrollList.getEmployeeRanged(startDate,endDate);
 				
 		return null;
 	}
