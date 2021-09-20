@@ -44,8 +44,8 @@ public class EmployeePayrollTest {
 		employeePayrollService.readEmployeePayrollData(IOService.DB_IO);
 		LocalDate startDate = LocalDate.of(2018, 1, 1);
 		LocalDate endDate = LocalDate.now();
-	//	EmployeePayrollData employeePayrollData=employeePayrollService.readEmployeePayrollForDateRange(IOService.DB_IO,startDate,endDate);
-//		Assert.assertEquals(4,employeePayrollData.size() );
+		EmployeePayrollData employeePayrollData=employeePayrollService.readEmployeePayrollForDateRange(IOService.DB_IO,startDate,endDate);
+		Assert.assertEquals(4,employeePayrollData.size() );
 	 }
 	 
 	 @Test
@@ -58,8 +58,13 @@ public class EmployeePayrollTest {
 		 
 	 }
 	 @Test
-	    public void abilityToAddNewEmployee() {
+	    public void abilityToAddNewEmployee_wheninserted() {
 	        EmployeePayrollDbService employeePayrollDBService=new EmployeePayrollDbService();
 	        employeePayrollDBService.addNewEmployee(1,"Poonam","F",500000,"2021-09-09");
+	   }
+	 @Test
+	    public void abilityToAddEmployeeToPayroll_whenNewEmployeeAdded() throws SQLException {
+	        EmployeePayrollDbService employeePayrollDBService=new EmployeePayrollDbService();
+	        employeePayrollDBService.addEmployeePayroll("dipika","F",652000,"2021-08-02");
 	    }
 }
