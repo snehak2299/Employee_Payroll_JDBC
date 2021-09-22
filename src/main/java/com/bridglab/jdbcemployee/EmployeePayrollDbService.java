@@ -200,4 +200,30 @@ public class EmployeePayrollDbService {
 
 
 	    }
+
+	public void convertEmployeePyrollToER() {
+	        String sql="SELECT * FROM employee_payroll;";
+	        try {
+	            Connection connection=this.getConnection();
+	            Statement statement=connection.createStatement();
+	            ResultSet resultSet=statement.executeQuery(sql);
+	            while (resultSet.next()){
+	                System.out.println(
+	                        resultSet.getString(1)+" "+
+	                                resultSet.getString(2)+" "+
+	                                resultSet.getString(3)+" "+
+	                                resultSet.getString(4)+" "+
+	                                resultSet.getString(5)+" "+
+	                                resultSet.getString(6));
+	            }
+
+	        }
+	        catch (SQLException e)
+	        {
+	            e.printStackTrace();
+	        }
+
+	    
+		
+	}
 }
