@@ -28,7 +28,7 @@ public class EmployeePayrollTest {
 	public void givenEmployeePayDb_retriveData_whenMatchCount() {
 		EmployeePayrollService employeePayrollService = new EmployeePayrollService();
 		List<EmployeePayrollData> employeePayrollData=employeePayrollService.readEmployeePayrollData(IOService.DB_IO);
-        Assert.assertEquals(6,employeePayrollData.size());
+        Assert.assertEquals(9,employeePayrollData.size());
 	}
 	@Test
 	public void givenNewSalaryEmployee_whenUpdated_SholudMatch() {
@@ -77,4 +77,9 @@ public class EmployeePayrollTest {
 	        EmployeePayrollDbService employeePayrollDbService=new EmployeePayrollDbService();
 	        employeePayrollDbService.convertEmployeePyrollToER();
 	    }
+	 @Test
+	 public void abilityToCheck_allCasesAreCompatible_WithER() {
+		    EmployeePayrollDbService employeePayrollDBService=new EmployeePayrollDbService();
+		    employeePayrollDBService.addNewEmployee(1,"srushti","F",560000,"2021-08-09");
+	 }
 }
